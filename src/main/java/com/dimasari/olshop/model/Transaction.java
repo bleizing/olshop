@@ -1,0 +1,149 @@
+package com.dimasari.olshop.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import com.dimasari.olshop.enumeration.PaymnetMethod;
+import com.dimasari.olshop.enumeration.StatusTransaction;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+@Entity
+@Table(name = "transactions")
+public class Transaction extends BaseModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6204095731084633921L;
+
+	@Column
+	private Long cartId;
+	
+	@Column
+	private Long userId;
+	
+	@Column
+	private StatusTransaction status;
+	
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(name = "order_date", columnDefinition = "TIMESTAMP")
+	private LocalDateTime orderDate;
+	
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(name = "payment_date", columnDefinition = "TIMESTAMP")
+	private LocalDateTime paymentDate;
+	
+	@Column
+	private int totalQuantity;
+	
+	@Column(precision = 19, scale = 0)
+	private BigDecimal totalPrice;
+	
+	@Column
+	private PaymnetMethod paymnetMethod;
+	
+	@Column
+	private String vaNumber;
+	
+	@Column(precision = 19, scale = 0)
+	private BigDecimal paymentAmount;
+	
+	@Column
+	private String transactionRef;
+
+	public Long getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public StatusTransaction getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusTransaction status) {
+		this.status = status;
+	}
+
+	public LocalDateTime getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(LocalDateTime orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public LocalDateTime getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(LocalDateTime paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	public int getTotalQuantity() {
+		return totalQuantity;
+	}
+
+	public void setTotalQuantity(int totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public PaymnetMethod getPaymnetMethod() {
+		return paymnetMethod;
+	}
+
+	public void setPaymnetMethod(PaymnetMethod paymnetMethod) {
+		this.paymnetMethod = paymnetMethod;
+	}
+
+	public String getVaNumber() {
+		return vaNumber;
+	}
+
+	public void setVaNumber(String vaNumber) {
+		this.vaNumber = vaNumber;
+	}
+
+	public BigDecimal getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public void setPaymentAmount(BigDecimal paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
+	public String getTransactionRef() {
+		return transactionRef;
+	}
+
+	public void setTransactionRef(String transactionRef) {
+		this.transactionRef = transactionRef;
+	}
+}
