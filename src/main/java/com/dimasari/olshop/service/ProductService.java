@@ -8,6 +8,7 @@ import com.dimasari.olshop.dto.request.CreateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
 import com.dimasari.olshop.model.Product;
 import com.dimasari.olshop.repo.ProductRepository;
+import com.dimasari.olshop.util.ResponseUtil;
 
 @Service
 public class ProductService {
@@ -27,11 +28,8 @@ public class ProductService {
 			var createProductResp = new CreateProductResponse();
 			createProductResp.setSuccess(true);
 			createProductResp.setId(product.getId());
-			
-			var response = new BaseResponse<>(createProductResp);
-			response.success();
-			
-			return response;
+						
+			return ResponseUtil.constructBaseResponse(createProductResp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

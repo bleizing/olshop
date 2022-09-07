@@ -14,16 +14,16 @@ public class CartUserDetail extends BaseModel {
 	 */
 	private static final long serialVersionUID = 3281912592838892165L;
 
-	@Column
+	@Column(name = "cart_id")
 	private Long cartId;
 	
-	@Column
+	@Column(name = "product_id")
 	private Long productId;
 	
 	@Column
 	private int quantity;
 	
-	@Column
+	@Column(name = "total_price")
 	private BigDecimal totalPrice;
 
 	public Long getCartId() {

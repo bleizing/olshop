@@ -22,10 +22,7 @@ public class Transaction extends BaseModel {
 	 */
 	private static final long serialVersionUID = 6204095731084633921L;
 
-	@Column
-	private Long cartId;
-	
-	@Column
+	@Column(name = "user_id")
 	private Long userId;
 	
 	@Column
@@ -41,31 +38,23 @@ public class Transaction extends BaseModel {
     @Column(name = "payment_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime paymentDate;
 	
-	@Column
+	@Column(name = "total_quantity")
 	private int totalQuantity;
 	
-	@Column(precision = 19, scale = 0)
+	@Column(name = "total_price", precision = 19, scale = 0)
 	private BigDecimal totalPrice;
 	
-	@Column
+	@Column(name = "payment_method")
 	private PaymnetMethod paymnetMethod;
 	
-	@Column
+	@Column(name = "va_number")
 	private String vaNumber;
 	
-	@Column(precision = 19, scale = 0)
+	@Column(name = "payment_amount", precision = 19, scale = 0)
 	private BigDecimal paymentAmount;
 	
-	@Column
+	@Column(name = "transaction_ref")
 	private String transactionRef;
-
-	public Long getCartId() {
-		return cartId;
-	}
-
-	public void setCartId(Long cartId) {
-		this.cartId = cartId;
-	}
 
 	public Long getUserId() {
 		return userId;
