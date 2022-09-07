@@ -1,17 +1,23 @@
 package com.dimasari.olshop.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.dimasari.olshop.dto.BaseResponse;
+import com.dimasari.olshop.dto.ProductDto;
 import com.dimasari.olshop.dto.request.CreateProductRequest;
 import com.dimasari.olshop.dto.request.DeleteProductRequest;
 import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
 import com.dimasari.olshop.dto.response.DeleteProductResponse;
 import com.dimasari.olshop.dto.response.DetailProductResponse;
+import com.dimasari.olshop.dto.response.ListProductResponse;
 import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.exception.DataNotFoundException;
 import com.dimasari.olshop.model.Product;
@@ -103,6 +109,44 @@ public class ProductService {
 			throw e;
 		}
 
+		return ResponseUtil.constructBaseResponse(response);
+	}
+	
+	public BaseResponse<ListProductResponse> list(String name, int page, int size) {
+		ListProductResponse response = null;
+		try {
+			Pageable pageable = PageRequest.of(page, size);
+			Page<Product> productPage = null; 
+			
+			if (name != null && !name.isEmpty()) {
+				productPage = productRepository.findByNameContainingAndDeletedIsFalse(name, pageable);
+			} else {
+				productPage = productRepository.findByDeletedIsFalse(pageable);
+			}
+			
+			ArrayList<ProductDto> products = new ArrayList<>();
+			
+			if (productPage.hasContent()) {
+				productPage.getContent().forEach(data -> {
+					var product = new ProductDto();
+					product.setId(data.getId());
+					product.setName(data.getName());
+					product.setDescription(data.getDescription());
+					product.setImage(data.getImage());
+					product.setPrice(data.getPrice());
+					
+					products.add(product);
+				});
+			}
+			
+			response = new ListProductResponse();
+			ResponseUtil.constructBaseResponsePagination(productPage.getNumber(), productPage.getNumberOfElements(), productPage.getTotalElements(), productPage.getTotalPages(), response);
+			response.setProducts(products);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 		return ResponseUtil.constructBaseResponse(response);
 	}
 }

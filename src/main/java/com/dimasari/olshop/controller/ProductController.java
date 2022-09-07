@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dimasari.olshop.dto.BaseResponse;
@@ -17,6 +18,7 @@ import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
 import com.dimasari.olshop.dto.response.DeleteProductResponse;
 import com.dimasari.olshop.dto.response.DetailProductResponse;
+import com.dimasari.olshop.dto.response.ListProductResponse;
 import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.service.ProductService;
 
@@ -44,5 +46,14 @@ public class ProductController {
 	@GetMapping("detail/{id}")
 	public BaseResponse<DetailProductResponse> detail(@PathVariable("id") Long id) {
 		return productService.detail(id);
+	}
+	
+	@GetMapping("list")
+	public BaseResponse<ListProductResponse> list(
+				@RequestParam(required = false) String name,
+				@RequestParam(defaultValue = "0") int page,
+				@RequestParam(defaultValue = "5") int size
+	        ) {
+		return productService.list(name, page, size);
 	}
 }
