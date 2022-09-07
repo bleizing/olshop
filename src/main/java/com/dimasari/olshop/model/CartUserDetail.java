@@ -1,7 +1,5 @@
 package com.dimasari.olshop.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,9 +20,6 @@ public class CartUserDetail extends BaseModel {
 	
 	@Column
 	private int quantity;
-	
-	@Column(name = "total_price")
-	private BigDecimal totalPrice;
 
 	public Long getCartId() {
 		return cartId;
@@ -48,13 +43,5 @@ public class CartUserDetail extends BaseModel {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public BigDecimal getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 }

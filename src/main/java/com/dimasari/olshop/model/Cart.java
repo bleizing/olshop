@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.dimasari.olshop.enumeration.StatusCart;
-
 @Entity
 @Table(name = "cart_users")
 public class Cart extends BaseModel {
@@ -18,5 +16,21 @@ public class Cart extends BaseModel {
 	private Long userId;
 	
 	@Column
-	private StatusCart status;
+	private String status;
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

@@ -6,20 +6,28 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ProductDto implements Serializable {
+public class CartDto implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8966731334115103203L;
+	private static final long serialVersionUID = 6015696759245148361L;
 	
 	private Long id;
 	private String name;
-	private String description;
 	private String image;
 	private BigDecimal price;
+	private int quantity;
 	
+	public CartDto(Long id, String name, String image, BigDecimal price, int quantity) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.price = price;
+		this.quantity = quantity;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -36,14 +44,6 @@ public class ProductDto implements Serializable {
 		this.name = name;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
 	public String getImage() {
 		return image;
 	}
@@ -58,5 +58,13 @@ public class ProductDto implements Serializable {
 	
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

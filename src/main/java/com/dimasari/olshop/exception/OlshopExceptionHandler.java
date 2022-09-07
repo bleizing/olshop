@@ -85,4 +85,9 @@ public class OlshopExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> dataNotFoundException(DataNotFoundException e) {
 		return handleResponseEntity(ResponseCodeConstant.DATA_NOT_FOUND, e.getMessage());
 	}
+	
+	@ExceptionHandler(UserUnregisterException.class)
+	public ResponseEntity<Object> userUnregisterException(UserUnregisterException e) {
+		return handleResponseEntity(ResponseCodeConstant.USER_UNREGISTER, e.getMessage());
+	}
 }
