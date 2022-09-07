@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreateProductResponse implements Serializable {
+public class UpdateProductResponse implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5435461192595675901L;
+	private static final long serialVersionUID = -4094400902288107055L;
 	
 	private boolean success;
 	private Long id;

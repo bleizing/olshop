@@ -2,6 +2,10 @@ package com.dimasari.olshop.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BaseResponse<T> implements Serializable {
 	/**
 	 * 

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dimasari.olshop.dto.BaseResponse;
 import com.dimasari.olshop.dto.request.CreateProductRequest;
+import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
+import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.service.ProductService;
 
 @RestController
@@ -22,5 +24,10 @@ public class ProductController {
 	@PostMapping("/create")
 	public BaseResponse<CreateProductResponse> create(@Valid @RequestBody CreateProductRequest request) {
 		return productService.create(request);
+	}
+	
+	@PostMapping("/update")
+	public BaseResponse<UpdateProductResponse> update(@Valid @RequestBody UpdateProductRequest request) {
+		return productService.update(request);
 	}
 }

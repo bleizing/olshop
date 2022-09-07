@@ -11,12 +11,16 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreateProductRequest implements Serializable {
+public class UpdateProductRequest implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5864201132405063095L;
+	private static final long serialVersionUID = 4489116034071627009L;
 
+	@NotNull
+	@Min(value = 1)
+	private Long productId;
+	
 	@NotBlank
 	private String name;
 	
@@ -29,6 +33,14 @@ public class CreateProductRequest implements Serializable {
 	@NotNull()
 	@Min(value = 100)
 	private BigDecimal price;
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 
 	public String getName() {
 		return name;
