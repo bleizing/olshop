@@ -11,6 +11,7 @@ import com.dimasari.olshop.dto.request.DeleteProductRequest;
 import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
 import com.dimasari.olshop.dto.response.DeleteProductResponse;
+import com.dimasari.olshop.dto.response.DetailProductResponse;
 import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.exception.DataNotFoundException;
 import com.dimasari.olshop.model.Product;
@@ -79,6 +80,24 @@ public class ProductService {
 
 			response = new DeleteProductResponse();
 			response.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+		return ResponseUtil.constructBaseResponse(response);
+	}
+	
+	public BaseResponse<DetailProductResponse> detail(Long id) {
+		DetailProductResponse response = null;
+		try {
+			var product = productRepository.findByIdAndDeletedIsFalse(id).orElseThrow(() -> new DataNotFoundException("Product not found"));
+
+			response = new DetailProductResponse();
+			response.setName(product.getName());
+			response.setDescription(product.getDescription());
+			response.setImage(product.getImage());
+			response.setPrice(product.getPrice());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
