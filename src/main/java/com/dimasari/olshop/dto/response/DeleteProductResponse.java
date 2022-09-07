@@ -6,14 +6,13 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreateProductResponse implements Serializable {
+public class DeleteProductResponse implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5435461192595675901L;
+	private static final long serialVersionUID = -3949092420757781550L;
 	
 	private boolean success;
-	private Long id;
 	
 	public boolean isSuccess() {
 		return success;
@@ -21,13 +20,5 @@ public class CreateProductResponse implements Serializable {
 	
 	public void setSuccess(boolean success) {
 		this.success = success;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 }

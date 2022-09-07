@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dimasari.olshop.dto.BaseResponse;
 import com.dimasari.olshop.dto.request.CreateProductRequest;
+import com.dimasari.olshop.dto.request.DeleteProductRequest;
 import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
+import com.dimasari.olshop.dto.response.DeleteProductResponse;
 import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.service.ProductService;
 
@@ -29,5 +31,10 @@ public class ProductController {
 	@PostMapping("/update")
 	public BaseResponse<UpdateProductResponse> update(@Valid @RequestBody UpdateProductRequest request) {
 		return productService.update(request);
+	}
+	
+	@PostMapping("/delete")
+	public BaseResponse<DeleteProductResponse> delete(@Valid @RequestBody DeleteProductRequest request) {
+		return productService.delete(request);
 	}
 }

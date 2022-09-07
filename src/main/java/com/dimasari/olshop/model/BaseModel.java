@@ -66,7 +66,7 @@ public class BaseModel implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Boolean getDeleted() {
+	public Boolean isDeleted() {
 		return deleted;
 	}
 

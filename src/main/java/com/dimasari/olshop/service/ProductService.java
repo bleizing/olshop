@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.dimasari.olshop.dto.BaseResponse;
 import com.dimasari.olshop.dto.request.CreateProductRequest;
+import com.dimasari.olshop.dto.request.DeleteProductRequest;
 import com.dimasari.olshop.dto.request.UpdateProductRequest;
 import com.dimasari.olshop.dto.response.CreateProductResponse;
+import com.dimasari.olshop.dto.response.DeleteProductResponse;
 import com.dimasari.olshop.dto.response.UpdateProductResponse;
 import com.dimasari.olshop.exception.DataNotFoundException;
 import com.dimasari.olshop.model.Product;
@@ -53,11 +55,30 @@ public class ProductService {
 			product.setImage(request.getImage());
 			product.setPrice(request.getPrice());
 
-			productRepository.saveAndFlush(product);
+			productRepository.save(product);
 
 			response = new UpdateProductResponse();
 			response.setSuccess(true);
 			response.setId(product.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+		return ResponseUtil.constructBaseResponse(response);
+	}
+	
+	public BaseResponse<DeleteProductResponse> delete(DeleteProductRequest request) {
+		DeleteProductResponse response = null;
+		try {
+			var product = productRepository.findByIdAndDeletedIsFalse(request.getProductId()).orElseThrow(() -> new DataNotFoundException("Product not found"));
+			product.setModifiedAt(LocalDateTime.now());
+			product.setDeleted(true);
+
+			productRepository.save(product);
+
+			response = new DeleteProductResponse();
+			response.setSuccess(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
