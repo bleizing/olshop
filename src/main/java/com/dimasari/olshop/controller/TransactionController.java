@@ -14,6 +14,7 @@ import com.dimasari.olshop.dto.BaseResponse;
 import com.dimasari.olshop.dto.request.AddToCartRequest;
 import com.dimasari.olshop.dto.request.RemoveFromCartRequest;
 import com.dimasari.olshop.dto.response.AddToCartResponse;
+import com.dimasari.olshop.dto.response.CheckoutResponse;
 import com.dimasari.olshop.dto.response.GetCartResponse;
 import com.dimasari.olshop.dto.response.RemoveFromCartResponse;
 import com.dimasari.olshop.service.TransactionService;
@@ -37,5 +38,10 @@ public class TransactionController {
 	@GetMapping("cart/list/{userId}")
 	public BaseResponse<GetCartResponse> list(@PathVariable("userId") Long userId) {
 		return transactionService.getCart(userId);
+	}
+	
+	@GetMapping("checkout/{userId}")
+	public BaseResponse<CheckoutResponse> checkout(@PathVariable("userId") Long userId) {
+		return transactionService.checkout(userId);
 	}
 }

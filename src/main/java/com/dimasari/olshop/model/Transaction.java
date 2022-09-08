@@ -26,7 +26,7 @@ public class Transaction extends BaseModel {
 	private Long userId;
 	
 	@Column
-	private StatusTransaction status;
+	private String status;
 	
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -64,11 +64,11 @@ public class Transaction extends BaseModel {
 		this.userId = userId;
 	}
 
-	public StatusTransaction getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusTransaction status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

@@ -1,6 +1,9 @@
 package com.dimasari.olshop.service;
 
+import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +14,17 @@ import com.dimasari.olshop.dto.CartDto;
 import com.dimasari.olshop.dto.request.AddToCartRequest;
 import com.dimasari.olshop.dto.request.RemoveFromCartRequest;
 import com.dimasari.olshop.dto.response.AddToCartResponse;
+import com.dimasari.olshop.dto.response.CheckoutResponse;
 import com.dimasari.olshop.dto.response.GetCartResponse;
 import com.dimasari.olshop.dto.response.RemoveFromCartResponse;
 import com.dimasari.olshop.enumeration.StatusCart;
+import com.dimasari.olshop.enumeration.StatusTransaction;
 import com.dimasari.olshop.exception.DataNotFoundException;
 import com.dimasari.olshop.exception.UserUnregisterException;
 import com.dimasari.olshop.model.Cart;
 import com.dimasari.olshop.model.CartUserDetail;
+import com.dimasari.olshop.model.Transaction;
+import com.dimasari.olshop.model.TransactionDetail;
 import com.dimasari.olshop.repo.CartRepository;
 import com.dimasari.olshop.repo.CartUserDetailRepository;
 import com.dimasari.olshop.repo.ProductRepository;
@@ -178,7 +185,72 @@ public class TransactionService {
 		return ResponseUtil.constructBaseResponse(response);
 	}
 	
+	public BaseResponse<CheckoutResponse> checkout(Long userId) {
+		CheckoutResponse response = null;
+		try {
+			validateUser(userId);
+			
+			var cart = cartRepository.findByUserIdAndStatusInCart(userId).orElseThrow(() -> new DataNotFoundException("Cart not found"));
+			
+			int[] totalQuantity = {0};
+			var vaNumber = String.valueOf(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+			int[] totalPrice = {0};
+			var transactionRef = "OL" + vaNumber + randomAlphabet(3);
+			var cartDetails = cartUserDetailRepository.findByCartIdAndDeletedFalse(cart.getId()).orElseThrow(() -> new DataNotFoundException("Cart detail not found"));
+			
+			var transaction = new Transaction();
+			transaction.setCreatedAt(LocalDateTime.now());
+			transaction.setUserId(userId);
+			transaction.setStatus(StatusTransaction.WAITING.getValue());
+			transaction.setOrderDate(LocalDateTime.now());
+			transactionRepository.saveAndFlush(transaction);
+			
+			cartDetails.forEach(data -> {
+				var product = productRepository.findByIdAndDeletedIsFalse(data.getProductId()).orElseThrow(() -> new DataNotFoundException("Product not found"));
+				totalQuantity[0] += data.getQuantity();
+				var total = product.getPrice().multiply(BigDecimal.valueOf(data.getQuantity()));
+				totalPrice[0] += Integer.valueOf(total.toPlainString());
+				
+				var transactionDetail = new TransactionDetail();
+				transactionDetail.setCreatedAt(LocalDateTime.now());
+				transactionDetail.setTransactionRef(transactionRef);
+				transactionDetail.setProductName(product.getName());
+				transactionDetail.setProductDescription(product.getDescription());
+				transactionDetail.setTotalQuantity(data.getQuantity());
+				transactionDetail.setTotalPrice(total);
+				
+				transactionDetailRepository.save(transactionDetail);
+			});
+			transaction.setTotalQuantity(totalQuantity[0]);
+			transaction.setTotalPrice(BigDecimal.valueOf(totalPrice[0]));
+			transaction.setVaNumber(vaNumber);
+			transaction.setTransactionRef(transactionRef);
+			transactionRepository.save(transaction);
+			
+			cart.setStatus(StatusCart.TRANSACTION.getValue());
+			cartRepository.save(cart);
+			
+			response = new CheckoutResponse();
+			response.setTotalPrice(BigDecimal.valueOf(totalPrice[0]));
+			response.setTransactionRef(transactionRef);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return ResponseUtil.constructBaseResponse(response);
+	}
+	
 	private void validateUser(Long userId) {
 		userRepository.findByIdAndDeletedIsFalse(userId).orElseThrow(() -> new UserUnregisterException("User unregister"));
+	}
+	
+	private String randomAlphabet(int len) {
+		var rnd = new SecureRandom();
+		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(alphabet.charAt(rnd.nextInt(alphabet.length())));
+		return sb.toString();
 	}
 }
