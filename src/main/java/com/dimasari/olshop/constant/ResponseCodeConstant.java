@@ -8,4 +8,5 @@ public class ResponseCodeConstant {
 
 	public static final String DATA_NOT_FOUND = "01";
 	public static final String USER_UNREGISTER = "02";
+	public static final String AMOUNT_LESS_PRICE = "03";
 }

@@ -12,13 +12,16 @@ import org.springframework.stereotype.Service;
 import com.dimasari.olshop.dto.BaseResponse;
 import com.dimasari.olshop.dto.CartDto;
 import com.dimasari.olshop.dto.request.AddToCartRequest;
+import com.dimasari.olshop.dto.request.PaymentRequest;
 import com.dimasari.olshop.dto.request.RemoveFromCartRequest;
 import com.dimasari.olshop.dto.response.AddToCartResponse;
 import com.dimasari.olshop.dto.response.CheckoutResponse;
 import com.dimasari.olshop.dto.response.GetCartResponse;
+import com.dimasari.olshop.dto.response.PaymentResponse;
 import com.dimasari.olshop.dto.response.RemoveFromCartResponse;
 import com.dimasari.olshop.enumeration.StatusCart;
 import com.dimasari.olshop.enumeration.StatusTransaction;
+import com.dimasari.olshop.exception.AmountLessPriceException;
 import com.dimasari.olshop.exception.DataNotFoundException;
 import com.dimasari.olshop.exception.UserUnregisterException;
 import com.dimasari.olshop.model.Cart;
@@ -233,6 +236,43 @@ public class TransactionService {
 			response = new CheckoutResponse();
 			response.setTotalPrice(BigDecimal.valueOf(totalPrice[0]));
 			response.setTransactionRef(transactionRef);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return ResponseUtil.constructBaseResponse(response);
+	}
+	
+	public BaseResponse<PaymentResponse> payment(PaymentRequest request) {
+		PaymentResponse response = null;
+		try {
+			var userId = request.getUserId();
+			
+			validateUser(userId);
+			
+			var transaction = transactionRepository.findByUserIdAndTransactionRefAndStatusInWaiting(userId, request.getTransactionRef()).orElseThrow(() -> new DataNotFoundException("Transaction not found"));
+			var transactionDetails = transactionDetailRepository.findByTransactionRefAndDeletedIsFalse(transaction.getTransactionRef()).orElseThrow(() -> new DataNotFoundException("Transaction detail not found"));
+			
+			int[] totalPrice = {0};
+			
+			transactionDetails.forEach(data -> {
+				totalPrice[0] += Integer.valueOf(data.getTotalPrice().toPlainString());
+			});
+			
+			if (request.getAmount().compareTo(BigDecimal.valueOf(totalPrice[0])) < 0) {
+				throw new AmountLessPriceException("Amount is less than price");
+			}
+			
+			transaction.setModifiedAt(LocalDateTime.now());
+			transaction.setPaymentDate(LocalDateTime.now());
+			transaction.setPaymnetMethod(request.getPaymentMethod());
+			transaction.setPaymentAmount(request.getAmount());
+			transaction.setStatus(StatusTransaction.SETTLE.getValue());
+			transactionRepository.save(transaction);
+			
+			response = new PaymentResponse();
+			response.setSuccess(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

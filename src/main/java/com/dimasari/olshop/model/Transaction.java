@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.dimasari.olshop.enumeration.PaymnetMethod;
-import com.dimasari.olshop.enumeration.StatusTransaction;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -45,7 +43,7 @@ public class Transaction extends BaseModel {
 	private BigDecimal totalPrice;
 	
 	@Column(name = "payment_method")
-	private PaymnetMethod paymnetMethod;
+	private String paymnetMethod;
 	
 	@Column(name = "va_number")
 	private String vaNumber;
@@ -104,11 +102,11 @@ public class Transaction extends BaseModel {
 		this.totalPrice = totalPrice;
 	}
 
-	public PaymnetMethod getPaymnetMethod() {
+	public String getPaymnetMethod() {
 		return paymnetMethod;
 	}
 
-	public void setPaymnetMethod(PaymnetMethod paymnetMethod) {
+	public void setPaymnetMethod(String paymnetMethod) {
 		this.paymnetMethod = paymnetMethod;
 	}
 

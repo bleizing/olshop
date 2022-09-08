@@ -90,4 +90,9 @@ public class OlshopExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> userUnregisterException(UserUnregisterException e) {
 		return handleResponseEntity(ResponseCodeConstant.USER_UNREGISTER, e.getMessage());
 	}
+	
+	@ExceptionHandler(AmountLessPriceException.class)
+	public ResponseEntity<Object> amountLessPriceException(AmountLessPriceException e) {
+		return handleResponseEntity(ResponseCodeConstant.AMOUNT_LESS_PRICE, e.getMessage());
+	}
 }
