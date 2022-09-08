@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "4bae7908-ab48-4107-bab9-7eb6cdfa18af",
+		"name": "Olshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "808091"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"test\",\n    \"description\":\"test\",\n    \"image\":\"http://www.google.com\",\n    \"price\":\"100000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7080/api/olshop/product/create",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\":3,\n    \"name\":\"testss\",\n    \"description\":\"testss\",\n    \"image\":\"http://www.google.com\",\n    \"price\":\"200000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7080/api/olshop/product/update",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"product",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\":2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7080/api/olshop/product/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"product",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7080/api/olshop/product/detail/3",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"product",
+								"detail",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7080/api/olshop/product/list",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"product",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Cart",
+					"item": [
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\":1,\n    \"carts\": [\n        {\n            \"product_id\":1,\n            \"quantity\":2\n        },\n        {\n            \"product_id\":3,\n            \"quantity\":1\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:7080/api/olshop/transaction/cart/add",
+									"host": [
+										"localhost"
+									],
+									"port": "7080",
+									"path": [
+										"api",
+										"olshop",
+										"transaction",
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\":1,\n    \"id_products\": [\n        1\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:7080/api/olshop/transaction/cart/remove",
+									"host": [
+										"localhost"
+									],
+									"port": "7080",
+									"path": [
+										"api",
+										"olshop",
+										"transaction",
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:7080/api/olshop/transaction/cart/list/1",
+									"host": [
+										"localhost"
+									],
+									"port": "7080",
+									"path": [
+										"api",
+										"olshop",
+										"transaction",
+										"cart",
+										"list",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Checkout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7080/api/olshop/transaction/checkout/1",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"transaction",
+								"checkout",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\":1,\n    \"transaction_ref\":\"ORDER1662636917562JBF\",\n    \"payment_method\":\"BCA\",\n    \"amount\":1200000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7080/api/olshop/transaction/payment",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"api",
+								"olshop",
+								"transaction",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
